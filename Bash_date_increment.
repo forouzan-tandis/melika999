@@ -1,0 +1,21 @@
+#!/bin/bash
+
+
+DATE=`date +%F`
+
+for i in {0..180}
+do
+   #NEXT_DATE=$(date +%m-%d-%Y -d "$DATE + $i day")
+
+   D=$(date +%Y-%m-%d -d "$DATE + $i day" )
+   m=$i
+   ii=$((m++))
+   echo $ii
+   echo "''''"
+   D1=$(date +%Y%m%d -d "$DATE + $ii day" )
+   DE=$(date -d "$D"  +%s )
+   echo $DE
+   echo " alter table history_text ADD  PARTITION ( PARTITION p"$D1"0000 VALUES LESS THAN ($DE) ENGINE = InnoDB ) ; "| mysql zabbix
+
+
+done
